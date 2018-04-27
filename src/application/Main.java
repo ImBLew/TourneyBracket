@@ -347,6 +347,23 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
+			
+		if(numTeam == 1) {
+			Label Champ = new Label("Champion");
+			gridPane.add(Champ, 0, 0);
+			Scene scene = new Scene(gridPane, 1450, 1450);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		}
+		if(numTeam == 0) {
+			Label noWinner = new Label("There is no winner with no teams");
+			gridPane.add(noWinner, 0, 0);
+			Scene scene = new Scene(gridPane, 1450, 1450);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		}
 
 		} catch (Exception e) {
 			e.printStackTrace();
