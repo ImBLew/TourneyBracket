@@ -54,7 +54,7 @@ public class Main extends Application {
 			gridPane.setHgap(20);
 
 			// Set up all labels needed
-			int numTeam = 16;
+			int numTeam = 2;
 			
 			if (numTeam == 16) {
 				int numQuaterfinalist = 8;
@@ -126,7 +126,8 @@ public class Main extends Application {
 				}
 				
 				for (int i = 0; i < 35; i++) {
-					score.add(new TextField("Score:"));
+					score.add(new TextField());
+					score.get(i).setPromptText("Score:");
 					score.get(i).setMaxSize(60,10);
 				}
 				for(int i = 0,row = 0; i< numTeam/2;i++, row+=2) {
@@ -214,7 +215,8 @@ public class Main extends Application {
 				}
 
 				for (int i = 0; i < 35; i++) {
-					score.add(new TextField("Score:"));
+					score.add(new TextField());
+					score.get(i).setPromptText("Score:");
 					score.get(i).setMaxSize(60, 10);
 				}
 				
@@ -291,7 +293,8 @@ public class Main extends Application {
 			}
 
 			for (int i = 0; i < 10; i++) {
-				score.add(new TextField("Score:"));
+				score.add(new TextField());
+				score.get(i).setPromptText("Score:");
 				score.get(i).setMaxSize(60, 10);
 			}
 			for (int i = 0, row = 0; i < numTeam / 2; i++, row += 2) {
@@ -325,9 +328,11 @@ public class Main extends Application {
 			gridPane.add(teamLabel.get(0), 0, 0);
 			gridPane.add(teamLabel.get(1), 4, 0);
 			
-			TextField score1 = new TextField("Score:");
+			TextField score1 = new TextField();
+			score1.setPromptText("Score:");
 			score1.setMaxSize(60, 10);
-			TextField score2 = new TextField("Score:");
+			TextField score2 = new TextField();
+			score2.setPromptText("Score:");
 			score2.setMaxSize(60, 10);
 			
 			gridPane.add(score1, 1, 0);
@@ -347,7 +352,6 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
-			
 		if(numTeam == 1) {
 			Label Champ = new Label("Champion");
 			gridPane.add(Champ, 0, 0);

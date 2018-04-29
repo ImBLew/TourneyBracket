@@ -8,7 +8,7 @@ public class Team {
     
     public Team(int seed, String name) {
         this.seed = seed;
-        this.name = name;
+        this.name = name; 
     }
     
     public int getSeed() {
