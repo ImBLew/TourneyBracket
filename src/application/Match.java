@@ -59,7 +59,6 @@ public class Match {
         scoreButton.setLayoutX(x);
         scoreButton.setLayoutY(y + height / 3.0);
         scoreButton.setMaxSize(90, 10);
-       
 
         /* *************** IS LEFT HANDLING *************** */
         if (!isLeft) {
