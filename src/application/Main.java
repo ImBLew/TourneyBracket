@@ -46,30 +46,38 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class Main extends Application {
+	
+	static SetUp setup;
 	@Override
 	public void start(Stage primaryStage) {
 		try {
 			GridPane gridPane = new GridPane();
 			gridPane.setVgap(20);
 			gridPane.setHgap(20);
-
-			// Set up all labels needed
-			int numTeam = 2;
 			
-			if (numTeam == 16) {
+			Team[] teams = setup.getTeam();
+			
+			// Set up all labels needed
+			int numTeam = teams.length;
+			if (numTeam == 16) {			
 				int numQuaterfinalist = 8;
 				int numSemifinalist = 4;
 				ArrayList<Label> quaterfinalist = new ArrayList<Label>();
 				ArrayList<Label> semifinalist = new ArrayList<Label>();
-				ArrayList<Label> teamLabel = new ArrayList<Label>();
-
-				// Set up label for all teams
-				int[] seedSequence = new int[] {1,16,8,9,4,13,5,12,2,15,7,10,3,14,6,11};
-				for (int i = 0; i < numTeam; i++) {
-				    teamLabel.add(new Label());
-				    teamLabel.get(i).setText("Team"+seedSequence[i]);
-				}
+				ArrayList<Match> matches = new ArrayList<Match>();
 				
+				//setup matches for first round
+				for(int i = 0 ; i < 8;i++) {
+					if(i < 4) {
+						matches.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
+						matches.get(i).addToLayout(gridPane);
+					}
+					else {
+						matches.add(new Match(19, (3*i)%12, 2, 3, false, teams[i*2], teams[i*2+1]));	
+						matches.get(i).addToLayout(gridPane);
+					}
+				}
+
 		         // Set up label for all quarter-finalist
 				for (int i = 0; i < numQuaterfinalist; i++) {
 				    quaterfinalist.add(new Label());
@@ -87,14 +95,14 @@ public class Main extends Application {
 				Label final2 = new Label("finalist2");
 				Label champion = new Label("Champion");
 				
-				//Display all of the teams
-	            for (int i = 0, row = 0; i <  seedSequence.length/2; i++, row += 2) {
-	                gridPane.add(teamLabel.get(i), 0, row);
-	            }
-	            
-	            for (int i = seedSequence.length/2, row = 0; i <  seedSequence.length; i++, row += 2) {
-	                gridPane.add(teamLabel.get(i), 19, row);
-	            }
+//				//Display all of the teams
+//	            for (int i = 0, row = 0; i <  seedSequence.length/2; i++, row += 2) {
+//	                gridPane.add(teamLabel.get(i), 0, row);
+//	            }
+//	            
+//	            for (int i = seedSequence.length/2, row = 0; i <  seedSequence.length; i++, row += 2) {
+//	                gridPane.add(teamLabel.get(i), 19, row);
+//	            }
 						
 				//Display quarterfinalists
 				for (int i = 0, row = 1; i <  quaterfinalist.size()/2; i++, row += 4) {
@@ -124,18 +132,18 @@ public class Main extends Application {
 				for(int i=0; i< 35;i++) {
 					scoreLabels.add(new Label("Score:"));
 				}
-				
-				for (int i = 0; i < 35; i++) {
-					score.add(new TextField());
-					score.get(i).setPromptText("Score:");
-					score.get(i).setMaxSize(60,10);
-				}
-				for(int i = 0,row = 0; i< numTeam/2;i++, row+=2) {
-					gridPane.add(score.get(i), 1, row);
-				}
-				for(int i = numTeam/2,row = 0; i< numTeam;i++, row+=2) {
-					gridPane.add(score.get(i), 18, row);
-				}
+//				
+//				for (int i = 0; i < 35; i++) {
+//					score.add(new TextField());
+//					score.get(i).setPromptText("Score:");
+//					score.get(i).setMaxSize(60,10);
+//				}
+//				for(int i = 0,row = 0; i< numTeam/2;i++, row+=2) {
+//					gridPane.add(score.get(i), 1, row);
+//				}
+//				for(int i = numTeam/2,row = 0; i< numTeam;i++, row+=2) {
+//					gridPane.add(score.get(i), 18, row);
+//				}
 				for (int i = 0, row = 1; i < 4; i++, row+=4) {
 					gridPane.add(scoreLabels.get(i), 3, row);
 				}
@@ -254,6 +262,9 @@ public class Main extends Application {
 			}
 			
 		if(numTeam == 4) {
+			
+
+			
 			ArrayList<Label> semifinalist = new ArrayList<Label>();
 			ArrayList<Label> teamLabel = new ArrayList<Label>();
 			int[] seedSequence = new int[] { 1, 4, 2, 3 };
@@ -376,8 +387,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 	        String filename = args[0];
-                SetUp setup = new SetUp(filename);
-                Team[] team = setup.getTeam();
+	        setup = new SetUp(filename);
 		launch(args);
 	}
 }

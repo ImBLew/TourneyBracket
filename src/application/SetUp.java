@@ -19,7 +19,7 @@ public class SetUp {
         Scanner scnr = null;
         ArrayList<String> teamNameList = null;
      
-        String[] nameArr = null;
+        String[] nameArr = new String[] {};
         try {
             file = new File(this.name);
             scnr = new Scanner(file);
@@ -56,12 +56,12 @@ public class SetUp {
     
     public Team[] createTeams(String[] nameArr) {
         ArrayList<Team> teamList = new ArrayList<Team>();
-        Team[] teamArr = null;
+        Team[] teamArr = new Team[] {};
         
         for(int i = 0; i < nameArr.length; i++) {
             teamList.add(new Team(i,nameArr[i]));
         }
-        teamArr = teamList.toArray(team);
+        teamArr = teamList.toArray(teamArr);
         
         return teamArr;
     }
@@ -70,25 +70,25 @@ public class SetUp {
         int[] seedFour = new int[] {1, 4, 2, 3};
         int[] seedEight = new int[] {1, 8, 4, 5, 2, 7, 3, 6};
         int[] seedSixteen = new int[] {1, 16, 8, 9, 4, 13, 5, 12, 2, 15, 7, 10, 3, 14, 6, 11};
-        Team[] ordered = teamArr.clone();
+        Team[] ordered = new Team[teamArr.length];
         
         if (team.length == 0) { return new Team[] {}; }
         if (team.length == 1 || team.length == 2) { return teamArr;}
         if (team.length == 4){
             for (int i = 0; i < seedFour.length; i++) {
-                ordered[i] = teamArr[seedFour[i]];
+                ordered[i] = teamArr[seedFour[i]-1];
             }
             return ordered;
         }       
-        if (team.length == 4){
+        if (team.length == 8){
             for (int i = 0; i < seedEight.length; i++) {
-                ordered[i] = teamArr[seedEight[i]];
+                ordered[i] = teamArr[seedEight[i]-1];
             }
             return ordered;
         } 
         else {
             for (int i = 0; i < seedSixteen.length; i++) {
-                ordered[i] = teamArr[seedSixteen[i]];
+                ordered[i] = teamArr[seedSixteen[i]-1];
             }
             return ordered;
         } 
