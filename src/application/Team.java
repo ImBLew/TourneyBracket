@@ -6,10 +6,9 @@ public class Team {
     int score = 0;
     boolean isEliminated = false;
     
-    public Team(int seed, String name, int score) {
+    public Team(int seed, String name) {
         this.seed = seed;
         this.name = name;
-        this.score = score; 
     }
     
     public int getSeed() {
