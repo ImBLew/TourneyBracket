@@ -375,6 +375,9 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
+	        String filename = args[0];
+                SetUp setup = new SetUp(filename);
+                Team[] team = setup.getTeam();
 		launch(args);
 	}
 }
