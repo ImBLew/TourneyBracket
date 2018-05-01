@@ -95,14 +95,7 @@ public class Main extends Application {
 				Label final2 = new Label("finalist2");
 				Label champion = new Label("Champion");
 				
-//				//Display all of the teams
-//	            for (int i = 0, row = 0; i <  seedSequence.length/2; i++, row += 2) {
-//	                gridPane.add(teamLabel.get(i), 0, row);
-//	            }
-//	            
-//	            for (int i = seedSequence.length/2, row = 0; i <  seedSequence.length; i++, row += 2) {
-//	                gridPane.add(teamLabel.get(i), 19, row);
-//	            }
+
 						
 				//Display quarterfinalists
 				for (int i = 0, row = 1; i <  quaterfinalist.size()/2; i++, row += 4) {
@@ -132,18 +125,7 @@ public class Main extends Application {
 				for(int i=0; i< 35;i++) {
 					scoreLabels.add(new Label("Score:"));
 				}
-//				
-//				for (int i = 0; i < 35; i++) {
-//					score.add(new TextField());
-//					score.get(i).setPromptText("Score:");
-//					score.get(i).setMaxSize(60,10);
-//				}
-//				for(int i = 0,row = 0; i< numTeam/2;i++, row+=2) {
-//					gridPane.add(score.get(i), 1, row);
-//				}
-//				for(int i = numTeam/2,row = 0; i< numTeam;i++, row+=2) {
-//					gridPane.add(score.get(i), 18, row);
-//				}
+
 				for (int i = 0, row = 1; i < 4; i++, row+=4) {
 					gridPane.add(scoreLabels.get(i), 3, row);
 				}
@@ -173,13 +155,22 @@ public class Main extends Application {
 			
 			if (numTeam == 8) {
 				// Set up label for all teams
-				ArrayList<Label> semifinalist = new ArrayList<Label>();
-				ArrayList<Label> teamLabel = new ArrayList<Label>();
-				int[] seedSequence = new int[] { 1, 8, 4, 5, 2, 7, 3, 6 };
-				for (int i = 0; i < numTeam; i++) {
-					teamLabel.add(new Label());
-					teamLabel.get(i).setText("Team" + seedSequence[i]);
+				
+				ArrayList<Match> matches = new ArrayList<Match>();
+				
+				for(int i = 0 ; i < 4;i++) {
+					if(i < 2) {
+						matches.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
+						matches.get(i).addToLayout(gridPane);
+					}
+					else {
+						matches.add(new Match(16, (3*i)%6, 2, 3, false, teams[i*2], teams[i*2+1]));	
+						matches.get(i).addToLayout(gridPane);
+					}
 				}
+				
+				ArrayList<Label> semifinalist = new ArrayList<Label>();
+
 				
 				int numSemifinalist = 4;
 
@@ -193,14 +184,7 @@ public class Main extends Application {
 				Label final2 = new Label("finalist2");
 				Label champion = new Label("Champion");
 				
-				//display all teams
-				for (int i = 0, row = 0; i < seedSequence.length / 2; i++, row += 2) {
-					gridPane.add(teamLabel.get(i), 0, row);
-				}
 
-				for (int i = seedSequence.length / 2, row = 0; i < seedSequence.length; i++, row += 2) {
-					gridPane.add(teamLabel.get(i), 15, row);
-				}
 				
 				// Display semifinalists
 				for (int i = 0, row = 1; i < semifinalist.size() / 2; i++, row += 4) {
@@ -216,25 +200,13 @@ public class Main extends Application {
 				gridPane.add(champion, 9, 4);
 				
 				// Set up for input textbox
-				ArrayList<TextField> score = new ArrayList<TextField>();
+
 				ArrayList<Label> scoreLabels = new ArrayList<Label>();
 				for (int i = 0; i < 35; i++) {
 					scoreLabels.add(new Label("Score:"));
 				}
 
-				for (int i = 0; i < 35; i++) {
-					score.add(new TextField());
-					score.get(i).setPromptText("Score:");
-					score.get(i).setMaxSize(60, 10);
-				}
-				
-				//add score labels for original 8 teams
-				for (int i = 0, row = 0; i < numTeam / 2; i++, row += 2) {
-					gridPane.add(score.get(i), 1, row);
-				}
-				for (int i = numTeam / 2, row = 0; i < numTeam; i++, row += 2) {
-					gridPane.add(score.get(i), 14, row);
-				}
+
 				//add score labels for final 4
 				for (int i = 0, row = 1; i < 2; i++, row += 4) {
 					gridPane.add(scoreLabels.get(i), 3, row);
@@ -263,15 +235,20 @@ public class Main extends Application {
 			
 		if(numTeam == 4) {
 			
-
+			ArrayList<Match> matches = new ArrayList<Match>();
+			
+			for(int i = 0 ; i < 2;i++) {
+				if(i < 1) {
+					matches.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
+					matches.get(i).addToLayout(gridPane);
+				}
+				else {
+					matches.add(new Match(12, (3*i)%3, 2, 3, false, teams[i*2], teams[i*2+1]));	
+					matches.get(i).addToLayout(gridPane);
+				}
+			}
 			
 			ArrayList<Label> semifinalist = new ArrayList<Label>();
-			ArrayList<Label> teamLabel = new ArrayList<Label>();
-			int[] seedSequence = new int[] { 1, 4, 2, 3 };
-			for (int i = 0; i < numTeam; i++) {
-				teamLabel.add(new Label());
-				teamLabel.get(i).setText("Team" + seedSequence[i]);
-			}
 			
 			int numSemifinalist = 2;
 			for (int i = 0; i < numSemifinalist; i++) {
@@ -284,52 +261,37 @@ public class Main extends Application {
 			Label final2 = new Label("finalist2");
 			Label champion = new Label("Champion");
 			
-			//display original 4 teams
-			for (int i = 0, row = 0; i < seedSequence.length / 2; i++, row += 2) {
-				gridPane.add(teamLabel.get(i), 0, row);
-			}
-			for (int i = seedSequence.length / 2, row = 0; i < seedSequence.length; i++, row += 2) {
-				gridPane.add(teamLabel.get(i), 11, row);
-			}
+
 			gridPane.add(final1, 3, 1);
 			gridPane.add(final2, 9, 1);
 			gridPane.add(champion, 5, 2);
 			
 			
-			// Set up for input textbox
-			ArrayList<TextField> score = new ArrayList<TextField>();
+
 			ArrayList<Label> scoreLabels = new ArrayList<Label>();
 			for (int i = 0; i < 10; i++) {
 				scoreLabels.add(new Label("Score:"));
 			}
+				
 
-			for (int i = 0; i < 10; i++) {
-				score.add(new TextField());
-				score.get(i).setPromptText("Score:");
-				score.get(i).setMaxSize(60, 10);
-			}
-			for (int i = 0, row = 0; i < numTeam / 2; i++, row += 2) {
-				gridPane.add(score.get(i), 1, row);
-			}
-			for (int i = numTeam / 2, row = 0; i < numTeam; i++, row += 2) {
-				gridPane.add(score.get(i), 10, row);
-			}
+
 			gridPane.add(scoreLabels.get(0), 4, 1);
-			gridPane.add(scoreLabels.get(1), 8, 1);
+     		gridPane.add(scoreLabels.get(1), 8, 1);
 			
 			
 			
 			Label instruction = new Label("Enter scores into each boxes");
 			gridPane.add(instruction, 3, 5, 10, 10);
 
-			Button submit = new Button("Submit scores");
-			gridPane.add(submit, 5, 5);
+
+
 			Scene scene = new Scene(gridPane, 1450, 1450);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
 		if(numTeam == 2) {
+			
 			ArrayList<Label> teamLabel = new ArrayList<Label>();
 			teamLabel.add(new Label());
 			teamLabel.get(0).setText("Team1");
@@ -358,7 +320,7 @@ public class Main extends Application {
 
 			Button submit = new Button("Submit scores");
 			gridPane.add(submit, 1, 3);
-			Scene scene = new Scene(gridPane, 1450, 1450);
+			Scene scene = new Scene(gridPane, 700, 400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
