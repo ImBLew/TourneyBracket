@@ -19,6 +19,7 @@ public class Match {
     private TextField team2TextField;
 
     private Button scoreButton;
+    private boolean isActive;
 
     public Match(int x, int y, int width, int height, boolean isLeft) {
         this.x = x;
@@ -69,7 +70,12 @@ public class Match {
             tmp = team2Label.getLayoutX();
             team2Label.setLayoutX(team2TextField.getLayoutX());
             team2TextField.setLayoutX(tmp);
+            
+            scoreButton.setLayoutX(x + 1);
         }
+        
+        /* ********************IS ACTIVE ****************** */
+        this.setActive(false);
     }
 
     public Match(int x, int y, int width, int height, boolean isLeft, Team team1, Team team2) {
@@ -79,6 +85,8 @@ public class Match {
         team1Label.setText(team1.getName());
         this.team2 = team2;
         team2Label.setText(team2.getName());
+        
+        this.setActive(true);
     }
 
     public void addToLayout(GridPane grid) {
@@ -91,4 +99,36 @@ public class Match {
         grid.add(scoreButton, (int) scoreButton.getLayoutX(), (int) scoreButton.getLayoutY());
 
     }
+    
+    public void setTeam1(Team team1) {
+        this.team1 = team1;
+        team1Label.setText(team1.getName());
+        if (team2 != null) {
+            this.setActive(true);
+        }
+    }
+    
+    public void setTeam2(Team team2) {
+        this.team2 = team2;
+        team2Label.setText(team2.getName());
+        if (team1 != null) {
+            this.setActive(true);
+        }
+    }
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+        
+        if (isActive == true) {
+            team1TextField.setEditable(true);
+            team2TextField.setEditable(true);
+        }else {
+            team1TextField.setEditable(false);
+            team2TextField.setEditable(false);
+        }
+    }
+    
+    public boolean getIsActive() {
+        return isActive;
+    }
+    
 }
