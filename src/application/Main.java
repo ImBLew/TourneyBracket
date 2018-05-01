@@ -60,92 +60,69 @@ public class Main extends Application {
 			// Set up all labels needed
 			int numTeam = teams.length;
 			if (numTeam == 16) {			
-				int numQuaterfinalist = 8;
-				int numSemifinalist = 4;
-				ArrayList<Label> quaterfinalist = new ArrayList<Label>();
+//				int numQuaterfinalist = 8;
+//				int numSemifinalist = 4;
+//				ArrayList<Label> quaterfinalist = new ArrayList<Label>();
 				ArrayList<Label> semifinalist = new ArrayList<Label>();
-				ArrayList<Match> matches = new ArrayList<Match>();
+				ArrayList<Match> roundOne = new ArrayList<Match>();
+				ArrayList<Match> quarterFinals = new ArrayList<Match>();
+				ArrayList<Match> semiFinals = new ArrayList<Match>();
 				
 				//setup matches for first round
-				for(int i = 0 ; i < 8;i++) {
+				for(int i = 0 ; i < 8; i++) {
 					if(i < 4) {
-						matches.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
-						matches.get(i).addToLayout(gridPane);
+						roundOne.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
+						roundOne.get(i).addToLayout(gridPane);
 					}
 					else {
-						matches.add(new Match(19, (3*i)%12, 2, 3, false, teams[i*2], teams[i*2+1]));	
-						matches.get(i).addToLayout(gridPane);
+						roundOne.add(new Match(19, (3*i)%12, 2, 3, false, teams[i*2], teams[i*2+1]));	
+						roundOne.get(i).addToLayout(gridPane);
+					}
+				}
+				
+				//setup matches for quarterfinals
+				for(int i = 0; i < 4; i++) {
+					if(i < 2) {
+						quarterFinals.add(new Match(3,i*6+1, 2, 6, true));
+						quarterFinals.get(i).addToLayout(gridPane);
+					}
+					else {
+						quarterFinals.add(new Match(16,(i*6+1)%12, 2, 6, false));
+						quarterFinals.get(i).addToLayout(gridPane);
+					}	
+				}
+				
+				//setup matches for semifinals
+				for(int i = 0; i < 2; i ++) {
+					if(i < 1) {
+						semiFinals.add(new Match(5,3,2,10,true));
+						semiFinals.get(i).addToLayout(gridPane);
+					}
+					else {
+						semiFinals.add(new Match(13,3,2,10,false));
+						semiFinals.get(i).addToLayout(gridPane);
 					}
 				}
 
-		         // Set up label for all quarter-finalist
-				for (int i = 0; i < numQuaterfinalist; i++) {
-				    quaterfinalist.add(new Label());
-				    quaterfinalist.get(i).setText("QuarterFinalist"+(i+1));
-				}
-				
-				// Set up label for all quarter-finalist
-	            for (int i = 0; i < numSemifinalist; i++) {
-	                semifinalist.add(new Label());
-	                semifinalist.get(i).setText("Semifinalist"+(i+1));
-	            }
-	            
+		 
 	            // Set up label for all finalists and champion
 				Label final1 = new Label("finalist1");
 				Label final2 = new Label("finalist2");
 				Label champion = new Label("Champion");
 				
 
-						
-				//Display quarterfinalists
-				for (int i = 0, row = 1; i <  quaterfinalist.size()/2; i++, row += 4) {
-				    gridPane.add(quaterfinalist.get(i), 2, row);
-				}
-				for (int i = quaterfinalist.size()/2, row = 1; i < quaterfinalist.size(); i++, row += 4) {
-				    gridPane.add(quaterfinalist.get(i), 17, row);
-				}
-
-				//Display semifinalists
-				for (int i = 0, row = 3; i <  semifinalist.size()/2; i++, row += 8) {
-				    gridPane.add(semifinalist.get(i), 4, row);
-				}
-				for (int i = semifinalist.size()/2, row = 3; i < semifinalist.size(); i++, row += 8) {
-				    gridPane.add(semifinalist.get(i), 15, row);
-				}
-				
 				//Display finalists and champion
-				gridPane.add(final1, 7, 7);
-				gridPane.add(final2, 13, 7);
-				gridPane.add(champion, 9, 8);
+				gridPane.add(final1, 7, 6);
+				gridPane.add(final2, 12, 6);
+				gridPane.add(champion, 9, 7);
 
 				
-				// Set up for input textbox 
-				ArrayList<TextField> score = new ArrayList<TextField>();            
-				ArrayList<Label> scoreLabels = new ArrayList<Label>();
-				for(int i=0; i< 35;i++) {
-					scoreLabels.add(new Label("Score:"));
-				}
 
-				for (int i = 0, row = 1; i < 4; i++, row+=4) {
-					gridPane.add(scoreLabels.get(i), 3, row);
-				}
-				for (int i = 4, row = 1; i < 8; i++, row+=4) {
-					gridPane.add(scoreLabels.get(i), 16, row);
-				}
-				for (int i = 8, row = 3; i < 10; i++, row +=8) {
-					gridPane.add(scoreLabels.get(i), 5, row);
-				}
-				for (int i = 10, row = 3; i < 12; i++, row +=8) {
-					gridPane.add(scoreLabels.get(i), 14, row);
-				}
-				
-				gridPane.add(scoreLabels.get(30), 8, 7);
-				gridPane.add(scoreLabels.get(31), 12, 7);
 				Label instruction = new Label("Enter scores into each boxes");
 				gridPane.add(instruction, 2, 16,10,10);
 				
-				Button submit = new Button("Submit scores");
-				gridPane.add(submit, 9, 15);		
+				
+			  	
 				Scene scene = new Scene(gridPane,1450,1450);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
@@ -156,16 +133,16 @@ public class Main extends Application {
 			if (numTeam == 8) {
 				// Set up label for all teams
 				
-				ArrayList<Match> matches = new ArrayList<Match>();
+				ArrayList<Match> roundOne = new ArrayList<Match>();
 				
 				for(int i = 0 ; i < 4;i++) {
 					if(i < 2) {
-						matches.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
-						matches.get(i).addToLayout(gridPane);
+						roundOne.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
+						roundOne.get(i).addToLayout(gridPane);
 					}
 					else {
-						matches.add(new Match(16, (3*i)%6, 2, 3, false, teams[i*2], teams[i*2+1]));	
-						matches.get(i).addToLayout(gridPane);
+						roundOne.add(new Match(16, (3*i)%6, 2, 3, false, teams[i*2], teams[i*2+1]));	
+						roundOne.get(i).addToLayout(gridPane);
 					}
 				}
 				
@@ -235,16 +212,16 @@ public class Main extends Application {
 			
 		if(numTeam == 4) {
 			
-			ArrayList<Match> matches = new ArrayList<Match>();
+			ArrayList<Match> roundOne = new ArrayList<Match>();
 			
 			for(int i = 0 ; i < 2;i++) {
 				if(i < 1) {
-					matches.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
-					matches.get(i).addToLayout(gridPane);
+					roundOne.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
+					roundOne.get(i).addToLayout(gridPane);
 				}
 				else {
-					matches.add(new Match(12, (3*i)%3, 2, 3, false, teams[i*2], teams[i*2+1]));	
-					matches.get(i).addToLayout(gridPane);
+					roundOne.add(new Match(12, (3*i)%3, 2, 3, false, teams[i*2], teams[i*2+1]));	
+					roundOne.get(i).addToLayout(gridPane);
 				}
 			}
 			
@@ -351,9 +328,6 @@ public class Main extends Application {
 	        String filename = args[0];
 	        setup = new SetUp(filename);
 		launch(args);
-	}
-	
-	public void matchIsFinished (Match m) {
 	}
 }
 
