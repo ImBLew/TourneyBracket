@@ -97,6 +97,7 @@ public class SetUp {
     private boolean legitSize(int size) {
         Set<Integer> legitTeamSize = new HashSet<Integer>();
         legitTeamSize.add(0);
+        legitTeamSize.add(1);
         legitTeamSize.add(2);
         legitTeamSize.add(4);
         legitTeamSize.add(8);

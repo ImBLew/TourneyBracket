@@ -1,5 +1,6 @@
 package application;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 
 import javafx.application.Application;
@@ -53,6 +54,13 @@ public class Main extends Application {
 	static ArrayList<Match> quarterFinals;
 	static ArrayList<Match> semiFinals;
 	
+	static Label finalLabel1;
+	static Label finalLabel2;
+	static TextField finalTextField1;
+	static TextField finalTextField2;
+	static Label champion;
+	static Button finalsButton;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -64,14 +72,13 @@ public class Main extends Application {
 			
 			// Set up all labels needed
 			int numTeam = teams.length;
+			roundOne = new ArrayList<Match>();
+            quarterFinals = new ArrayList<Match>();
+            semiFinals = new ArrayList<Match>();
 			if (numTeam == 16) {			
 //				int numQuaterfinalist = 8;
 //				int numSemifinalist = 4;
 //				ArrayList<Label> quaterfinalist = new ArrayList<Label>();
-				ArrayList<Label> semifinalist = new ArrayList<Label>();
-				roundOne = new ArrayList<Match>();
-				quarterFinals = new ArrayList<Match>();
-				semiFinals = new ArrayList<Match>();
 				
 				//setup matches for first round
 				for(int i = 0 ; i < 8; i++) {
@@ -109,20 +116,8 @@ public class Main extends Application {
 					}
 				}
 
-		 
-	            // Set up label for all finalists and champion
-				Label final1 = new Label("finalist1");
-				Label final2 = new Label("finalist2");
-				Label champion = new Label("Champion");
+	            setupFinals(gridPane, numTeam);
 				
-
-				//Display finalists and champion
-				gridPane.add(final1, 7, 6);
-				gridPane.add(final2, 12, 6);
-				gridPane.add(champion, 9, 7);
-
-				
-
 				Label instruction = new Label("Enter scores into each boxes");
 				gridPane.add(instruction, 2, 16,10,10);
 				
@@ -136,79 +131,36 @@ public class Main extends Application {
 
 			
 			if (numTeam == 8) {
-				// Set up label for all teams
-				
-				ArrayList<Match> roundOne = new ArrayList<Match>();
 				
 				for(int i = 0 ; i < 4;i++) {
-					if(i < 2) {
-						roundOne.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
-						roundOne.get(i).addToLayout(gridPane);
-					}
-					else {
-						roundOne.add(new Match(16, (3*i)%6, 2, 3, false, teams[i*2], teams[i*2+1]));	
-						roundOne.get(i).addToLayout(gridPane);
-					}
+				    if(i < 2) {
+                        quarterFinals.add(new Match(3,i*6+1, 2, 6, true, teams[i*2], teams[i*2+1]));
+                        quarterFinals.get(i).addToLayout(gridPane);
+                    }
+                    else {
+                        quarterFinals.add(new Match(16,(i*6+1)%12, 2, 6, false, teams[i*2], teams[i*2+1]));
+                        quarterFinals.get(i).addToLayout(gridPane);
+                    }
 				}
 				
-				ArrayList<Label> semifinalist = new ArrayList<Label>();
+				int numSemifinals = 2;
 
+				for (int i = 0; i < numSemifinals; i++) {
+				    if(i < 1) {
+                        semiFinals.add(new Match(5,3,2,10,true));
+                        semiFinals.get(i).addToLayout(gridPane);
+                    }
+                    else {
+                        semiFinals.add(new Match(13,3,2,10,false));
+                        semiFinals.get(i).addToLayout(gridPane);
+                    }
+				}
+
+				setupFinals(gridPane, numTeam);
 				
-				int numSemifinalist = 4;
-
-				for (int i = 0; i < numSemifinalist; i++) {
-					semifinalist.add(new Label());
-					semifinalist.get(i).setText("Semifinalist" + (i + 1));
-				}
-
-				// Set up label for all finalists and champion
-				Label final1 = new Label("finalist1");
-				Label final2 = new Label("finalist2");
-				Label champion = new Label("Champion");
-				
-
-				
-				// Display semifinalists
-				for (int i = 0, row = 1; i < semifinalist.size() / 2; i++, row += 4) {
-					gridPane.add(semifinalist.get(i), 2, row);
-				}
-				for (int i = semifinalist.size() / 2, row = 1; i < semifinalist.size(); i++, row += 4) {
-					gridPane.add(semifinalist.get(i), 13, row);
-				}
-				
-				// Display finalists and champion
-				gridPane.add(final1, 4, 3);
-				gridPane.add(final2, 11, 3);
-				gridPane.add(champion, 9, 4);
-				
-				// Set up for input textbox
-
-				ArrayList<Label> scoreLabels = new ArrayList<Label>();
-				for (int i = 0; i < 35; i++) {
-					scoreLabels.add(new Label("Score:"));
-				}
-
-
-				//add score labels for final 4
-				for (int i = 0, row = 1; i < 2; i++, row += 4) {
-					gridPane.add(scoreLabels.get(i), 3, row);
-				}
-				for (int i = 2, row = 1; i < 4; i++, row += 4) {
-					gridPane.add(scoreLabels.get(i), 12, row);
-				}
-				//add score labels for finalists
-				for (int i = 4, row = 3; i < 5; i++, row += 8) {
-					gridPane.add(scoreLabels.get(i), 5, row);
-				}
-				for (int i = 5, row = 3; i < 6; i++, row += 8) {
-					gridPane.add(scoreLabels.get(i), 10, row);
-				}
-			
 				Label instruction = new Label("Enter scores into each boxes");
 				gridPane.add(instruction, 2, 16, 10, 10);
 
-				Button submit = new Button("Submit scores");
-				gridPane.add(submit, 9, 15);
 				Scene scene = new Scene(gridPane, 1450, 1450);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
@@ -217,55 +169,21 @@ public class Main extends Application {
 			
 		if(numTeam == 4) {
 			
-			ArrayList<Match> roundOne = new ArrayList<Match>();
-			
 			for(int i = 0 ; i < 2;i++) {
-				if(i < 1) {
-					roundOne.add(new Match(0, 3*i, 2, 3, true, teams[i*2], teams[i*2+1]));
-					roundOne.get(i).addToLayout(gridPane);
-				}
-				else {
-					roundOne.add(new Match(12, (3*i)%3, 2, 3, false, teams[i*2], teams[i*2+1]));	
-					roundOne.get(i).addToLayout(gridPane);
-				}
+			    if(i < 1) {
+                    semiFinals.add(new Match(5,3,2,10,true, teams[i*2], teams[i*2+1]));
+                    semiFinals.get(i).addToLayout(gridPane);
+                }
+                else {
+                    semiFinals.add(new Match(13,3,2,10,false, teams[i*2], teams[i*2+1]));
+                    semiFinals.get(i).addToLayout(gridPane);
+                }
 			}
 			
-			ArrayList<Label> semifinalist = new ArrayList<Label>();
-			
-			int numSemifinalist = 2;
-			for (int i = 0; i < numSemifinalist; i++) {
-				semifinalist.add(new Label());
-				semifinalist.get(i).setText("Semifinalist" + (i + 1));
-			}
+			setupFinals(gridPane, numTeam);
 
-			// Set up label for all finalists and champion
-			Label final1 = new Label("finalist1");
-			Label final2 = new Label("finalist2");
-			Label champion = new Label("Champion");
-			
-
-			gridPane.add(final1, 3, 1);
-			gridPane.add(final2, 9, 1);
-			gridPane.add(champion, 5, 2);
-			
-			
-
-			ArrayList<Label> scoreLabels = new ArrayList<Label>();
-			for (int i = 0; i < 10; i++) {
-				scoreLabels.add(new Label("Score:"));
-			}
-				
-
-
-			gridPane.add(scoreLabels.get(0), 4, 1);
-     		gridPane.add(scoreLabels.get(1), 8, 1);
-			
-			
-			
 			Label instruction = new Label("Enter scores into each boxes");
-			gridPane.add(instruction, 3, 5, 10, 10);
-
-
+			gridPane.add(instruction, 3, 7, 10, 10);
 
 			Scene scene = new Scene(gridPane, 1450, 1450);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -273,48 +191,31 @@ public class Main extends Application {
 			primaryStage.show();
 		}
 		if(numTeam == 2) {
-			
-			ArrayList<Label> teamLabel = new ArrayList<Label>();
-			teamLabel.add(new Label());
-			teamLabel.get(0).setText("Team1");
-			teamLabel.add(new Label());
-			teamLabel.get(1).setText("Team2");
-			
-			gridPane.add(teamLabel.get(0), 0, 0);
-			gridPane.add(teamLabel.get(1), 4, 0);
-			
-			TextField score1 = new TextField();
-			score1.setPromptText("Score:");
-			score1.setMaxSize(60, 10);
-			TextField score2 = new TextField();
-			score2.setPromptText("Score:");
-			score2.setMaxSize(60, 10);
-			
-			gridPane.add(score1, 1, 0);
-			gridPane.add(score2, 3, 0);
-			
-			Label Champion = new Label("Champion");
-			gridPane.add(Champion, 2, 1);
-
+		    
+		    setupFinals(gridPane, numTeam);
+		    
+		    finalLabel1.setText(teams[0].getName());
+		    finalLabel2.setText(teams[1].getName());
+		    
+		    activateFinals();
 			
 			Label instruction = new Label("Enter scores into each boxes");
-			gridPane.add(instruction, 2, 4, 10, 10);
+			gridPane.add(instruction, 2, 5, 10, 10);
 
-			Button submit = new Button("Submit scores");
-			gridPane.add(submit, 1, 3);
 			Scene scene = new Scene(gridPane, 700, 400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
 		if(numTeam == 1) {
-			Label Champ = new Label("Champion");
+			Label Champ = new Label("No competition, " + teams[0].getName() + " is the winner");
 			gridPane.add(Champ, 0, 0);
 			Scene scene = new Scene(gridPane, 1450, 1450);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
+
 		if(numTeam == 0) {
 			Label noWinner = new Label("There is no winner with no teams");
 			gridPane.add(noWinner, 0, 0);
@@ -336,8 +237,10 @@ public class Main extends Application {
 	}
 	
 	public static void matchFinished(Match m) {
+	    System.out.println("Checking roundOne");
 	    for (int i = 0; i < roundOne.size(); i++) {
 	        if (roundOne.get(i).equals(m)) {
+	            System.out.println("Found match in roundOne Array");
 	            if (i%2 == 0) {
 	                quarterFinals.get((int)Math.floor((double)(i/2))).setTeam1(m.getWinningTeam());
 	            }else {
@@ -345,8 +248,11 @@ public class Main extends Application {
 	            }
 	        }
 	    }
+	    System.out.println("Checking quarterFinals Array");
 	    for (int i = 0; i < quarterFinals.size(); i++) {
+	        System.out.println("In quarterfinals array");
             if (quarterFinals.get(i).equals(m)) {
+                System.out.println("Found match in Quarterfinal Array");
                 if (i%2 == 0) {
                     semiFinals.get((int)Math.floor((double)(i/2))).setTeam1(m.getWinningTeam());
                 }else {
@@ -357,14 +263,77 @@ public class Main extends Application {
 	    for (int i = 0; i < semiFinals.size(); i++) {
             if (semiFinals.get(i).equals(m)) {
                 if (i%2 == 0) {
-                    //Finals set team 1
-                    System.out.println("Finals team 1 = " + m.getWinningTeam().getName());
+                    finalLabel1.setText(m.getWinningTeam().getName());
+                    if (!finalLabel2.getText().equals("TBD")) {
+                        activateFinals();
+                    }
                 }else {
-                    //Finals set team 2
-                    System.out.println("Finals team 2 = " + m.getWinningTeam().getName());
+                    finalLabel2.setText(m.getWinningTeam().getName());
+                    if (!finalLabel1.getText().equals("TBD")) {
+                        activateFinals();
+                    }
                 }
             }
         }
+	}
+	
+	private static void setupFinals(GridPane gp, int numTeams) {
+	    finalLabel1 = new Label("TBD");
+	    finalLabel2 = new Label("TBD");
+	    
+	    finalTextField1 = new TextField();
+	    finalTextField1.setEditable(false);
+	    finalTextField1.setMaxSize(60, 10);
+	    finalTextField1.setPromptText("Score");
+	    
+	    finalTextField2 = new TextField();
+	    finalTextField2.setEditable(false);
+	    finalTextField2.setMaxSize(60, 10);
+	    finalTextField2.setPromptText("Score");
+	    
+	    finalsButton = new Button("Submit");
+	    finalsButton.setMaxSize(80, 10);
+	    finalsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+	                    (evt) -> {
+	                        try { 
+	                            
+	                            int score1 = Integer.parseInt(finalTextField1.getText());
+	                            int score2 = Integer.parseInt(finalTextField2.getText());
+	                            
+	                            if (score1 < 0 || score2 < 0 || score1 == score2) {
+	                                throw new IllegalArgumentException();
+	                            }
+	                            
+	                            String champ = score1 > score2 ? finalLabel1.getText() : finalLabel2.getText();
+	                            
+	                            champion.setText(champ);
+	                            
+	                            finalTextField1.setEditable(false);
+	                            finalTextField2.setEditable(false);
+	                        }
+	                        catch (Exception ex) {
+	                            if (ex instanceof IllegalArgumentException || ex instanceof NumberFormatException) {
+	                                finalTextField1.clear();
+	                                finalTextField2.clear();
+	                                System.out.println("Hello World");
+	                            }                   
+	                        }
+	                    });
+	    
+	    champion = new Label("TBD");
+	    
+	    gp.add(finalLabel1, 7, 6);
+	    gp.add(finalLabel2, 12, 6);
+	    gp.add(finalTextField1, 7, 7);
+	    gp.add(finalTextField2, 12, 7);
+	    gp.add(champion, 9, 7);
+	    gp.add(finalsButton, 9, 6);
+	    
+	}
+	
+	private static void activateFinals() {
+	    finalTextField1.setEditable(true);
+	    finalTextField2.setEditable(true);
 	}
 }
 

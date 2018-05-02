@@ -59,10 +59,10 @@ public class Match implements Comparable{
 
         /* ***************** SCORE BUTTON ***************** */
         scoreButton = new Button();
-        scoreButton.setText("Final Score");
+        scoreButton.setText("Submit");
         scoreButton.setLayoutX(x);
         scoreButton.setLayoutY(y + height / 3.0);
-        scoreButton.setMaxSize(90, 10);
+        scoreButton.setMaxSize(80, 10);
         
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
             @Override 
@@ -180,6 +180,7 @@ public class Match implements Comparable{
     }
     
     private void finished() {
+        System.out.println("Finished match of " + team1.getName() + " vs " + team2.getName() + ", winner is " + winningTeam.getName());
         Main.matchFinished(this);
     }
 }
