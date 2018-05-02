@@ -1,7 +1,7 @@
 package application;
 ///////////////////////////////////////////////////////////////////////////////
 //
-//Class File:       SetUp.java
+//Class File:       Team.java
 //Semester:         Spring 2018
 //
 //Author:           Yaakov Levin, Anthony Leung, Sharon Lin, Ben Lewis
