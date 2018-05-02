@@ -64,7 +64,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			//we are using GridPane to format our GUI
 			GridPane gridPane = new GridPane();
+			//this gives us spacing between cells in GridPane
 			gridPane.setVgap(20);
 			gridPane.setHgap(20);
 			
@@ -75,11 +77,7 @@ public class Main extends Application {
 			roundOne = new ArrayList<Match>();
             quarterFinals = new ArrayList<Match>();
             semiFinals = new ArrayList<Match>();
-			if (numTeam == 16) {			
-//				int numQuaterfinalist = 8;
-//				int numSemifinalist = 4;
-//				ArrayList<Label> quaterfinalist = new ArrayList<Label>();
-				
+			if (numTeam == 16) {							
 				//setup matches for first round
 				for(int i = 0 ; i < 8; i++) {
 					if(i < 4) {
@@ -122,7 +120,7 @@ public class Main extends Application {
 				gridPane.add(instruction, 2, 16,10,10);
 				
 				
-			  	
+			  	//final step to show scene
 				Scene scene = new Scene(gridPane,1450,1450);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
@@ -131,7 +129,7 @@ public class Main extends Application {
 
 			
 			if (numTeam == 8) {
-				
+				//set up first round of matches
 				for(int i = 0 ; i < 4;i++) {
 				    if(i < 2) {
                         quarterFinals.add(new Match(3,i*6+1, 2, 6, true, teams[i*2], teams[i*2+1]));
@@ -144,7 +142,7 @@ public class Main extends Application {
 				}
 				
 				int numSemifinals = 2;
-
+				//set up second round of matches
 				for (int i = 0; i < numSemifinals; i++) {
 				    if(i < 1) {
                         semiFinals.add(new Match(5,3,2,10,true));
@@ -161,6 +159,7 @@ public class Main extends Application {
 				Label instruction = new Label("Enter scores into each boxes");
 				gridPane.add(instruction, 2, 16, 10, 10);
 
+				//final step to show scene
 				Scene scene = new Scene(gridPane, 1450, 1450);
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
@@ -168,7 +167,7 @@ public class Main extends Application {
 			}
 			
 		if(numTeam == 4) {
-			
+			//set up first round matches
 			for(int i = 0 ; i < 2;i++) {
 			    if(i < 1) {
                     semiFinals.add(new Match(5,3,2,10,true, teams[i*2], teams[i*2+1]));
@@ -185,13 +184,14 @@ public class Main extends Application {
 			Label instruction = new Label("Enter scores into each boxes");
 			gridPane.add(instruction, 3, 7, 10, 10);
 
+			//final step to show scene to user
 			Scene scene = new Scene(gridPane, 1450, 1450);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
 		if(numTeam == 2) {
-		    
+		    //start with finals when only 2 teams
 		    setupFinals(gridPane, numTeam);
 		    
 		    finalLabel1.setText(teams[0].getName());
@@ -202,12 +202,14 @@ public class Main extends Application {
 			Label instruction = new Label("Enter scores into each boxes");
 			gridPane.add(instruction, 2, 5, 10, 10);
 
-			Scene scene = new Scene(gridPane, 700, 400);
+			Scene scene = new Scene(gridPane, 1450, 1450);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
+		
 		if(numTeam == 1) {
+			//if only 1 team just display the team name
 			Label Champ = new Label("No competition, " + teams[0].getName() + " is the winner");
 			gridPane.add(Champ, 0, 0);
 			Scene scene = new Scene(gridPane, 1450, 1450);
@@ -277,22 +279,33 @@ public class Main extends Application {
         }
 	}
 	
+	/**
+	 * This sets up the match between the two final teams. Different from a normal match in 
+	 * that the two teams are lined up horizontally not vertically. 
+	 * @param gp the gridPane object we put everything in
+	 * @param numTeams 
+	 */
 	private static void setupFinals(GridPane gp, int numTeams) {
-	    finalLabel1 = new Label("TBD");
+	    //final 2 teams
+		finalLabel1 = new Label("TBD");
 	    finalLabel2 = new Label("TBD");
 	    
+	    //finals score input field for left side winner
 	    finalTextField1 = new TextField();
 	    finalTextField1.setEditable(false);
 	    finalTextField1.setMaxSize(60, 10);
 	    finalTextField1.setPromptText("Score");
 	    
+	    //finals score input field for rigth side winner
 	    finalTextField2 = new TextField();
 	    finalTextField2.setEditable(false);
 	    finalTextField2.setMaxSize(60, 10);
 	    finalTextField2.setPromptText("Score");
 	    
+	    //button used to submit the scores
 	    finalsButton = new Button("Submit");
 	    finalsButton.setMaxSize(80, 10);
+	    //this figures out what to do when user hits "submit"
 	    finalsButton.addEventHandler(MouseEvent.MOUSE_CLICKED, 
 	                    (evt) -> {
 	                        try { 
@@ -300,6 +313,7 @@ public class Main extends Application {
 	                            int score1 = Integer.parseInt(finalTextField1.getText());
 	                            int score2 = Integer.parseInt(finalTextField2.getText());
 	                            
+	                            //checks if inputs are legal
 	                            if (score1 < 0 || score2 < 0 || score1 == score2) {
 	                                throw new IllegalArgumentException();
 	                            }
@@ -315,13 +329,13 @@ public class Main extends Application {
 	                            if (ex instanceof IllegalArgumentException || ex instanceof NumberFormatException) {
 	                                finalTextField1.clear();
 	                                finalTextField2.clear();
-	                                System.out.println("Hello World");
 	                            }                   
 	                        }
 	                    });
 	    
 	    champion = new Label("TBD");
 	    
+	    //add all labels and buttons to the gridPane
 	    gp.add(finalLabel1, 7, 6);
 	    gp.add(finalLabel2, 12, 6);
 	    gp.add(finalTextField1, 7, 7);
@@ -331,6 +345,9 @@ public class Main extends Application {
 	    
 	}
 	
+	/**
+	 * Activates the text fields for final match
+	 */
 	private static void activateFinals() {
 	    finalTextField1.setEditable(true);
 	    finalTextField2.setEditable(true);
