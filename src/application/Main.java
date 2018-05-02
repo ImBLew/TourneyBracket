@@ -48,6 +48,11 @@ import javafx.scene.text.Text;
 public class Main extends Application {
 	
 	static SetUp setup;
+	
+	static ArrayList<Match> roundOne;
+	static ArrayList<Match> quarterFinals;
+	static ArrayList<Match> semiFinals;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -64,9 +69,9 @@ public class Main extends Application {
 //				int numSemifinalist = 4;
 //				ArrayList<Label> quaterfinalist = new ArrayList<Label>();
 				ArrayList<Label> semifinalist = new ArrayList<Label>();
-				ArrayList<Match> roundOne = new ArrayList<Match>();
-				ArrayList<Match> quarterFinals = new ArrayList<Match>();
-				ArrayList<Match> semiFinals = new ArrayList<Match>();
+				roundOne = new ArrayList<Match>();
+				quarterFinals = new ArrayList<Match>();
+				semiFinals = new ArrayList<Match>();
 				
 				//setup matches for first round
 				for(int i = 0 ; i < 8; i++) {
@@ -328,6 +333,38 @@ public class Main extends Application {
 	        String filename = args[0];
 	        setup = new SetUp(filename);
 		launch(args);
+	}
+	
+	public static void matchFinished(Match m) {
+	    for (int i = 0; i < roundOne.size(); i++) {
+	        if (roundOne.get(i).equals(m)) {
+	            if (i%2 == 0) {
+	                quarterFinals.get((int)Math.floor((double)(i/2))).setTeam1(m.getWinningTeam());
+	            }else {
+	                quarterFinals.get((int)Math.floor((double)(i/2))).setTeam2(m.getWinningTeam());
+	            }
+	        }
+	    }
+	    for (int i = 0; i < quarterFinals.size(); i++) {
+            if (quarterFinals.get(i).equals(m)) {
+                if (i%2 == 0) {
+                    semiFinals.get((int)Math.floor((double)(i/2))).setTeam1(m.getWinningTeam());
+                }else {
+                    semiFinals.get((int)Math.floor((double)(i/2))).setTeam2(m.getWinningTeam());
+                }
+            }
+        }
+	    for (int i = 0; i < semiFinals.size(); i++) {
+            if (semiFinals.get(i).equals(m)) {
+                if (i%2 == 0) {
+                    //Finals set team 1
+                    System.out.println("Finals team 1 = " + m.getWinningTeam().getName());
+                }else {
+                    //Finals set team 2
+                    System.out.println("Finals team 2 = " + m.getWinningTeam().getName());
+                }
+            }
+        }
 	}
 }
 
