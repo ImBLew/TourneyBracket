@@ -1,24 +1,27 @@
 package application;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 public class Match {
 
     private int x, y;
     private int width, height;
-    private Team team1, team2;
+    protected Team team1, team2;
     private boolean isLeft;
+    protected Team winningTeam;
 
     private Label team1Label;
     private Label team2Label;
 
-    private TextField team1TextField;
-    private TextField team2TextField;
+    protected TextField team1TextField;
+    protected TextField team2TextField;
 
-    private Button scoreButton;
+    protected Button scoreButton;
     private boolean isActive;
 
     public Match(int x, int y, int width, int height, boolean isLeft) {
@@ -60,6 +63,36 @@ public class Match {
         scoreButton.setLayoutX(x);
         scoreButton.setLayoutY(y + height / 3.0);
         scoreButton.setMaxSize(90, 10);
+        
+        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
+            @Override 
+            public void handle(MouseEvent e) { 
+                
+                try { 
+                    
+                    int score1 = Integer.parseInt(team1TextField.getText());
+                    int score2 = Integer.parseInt(team2TextField.getText());
+                    
+                    if (score1 < 0 || score2 < 0 || score1 == score2) {
+                        throw new IllegalArgumentException();
+                    }
+                    
+                    winningTeam = score1 > score2 ? team1 : team2;
+                    setActive(false);
+                    
+                }
+                catch (Exception ex) {
+                    if (ex instanceof IllegalArgumentException || ex instanceof NumberFormatException) {
+                        team1TextField.clear();
+                        team2TextField.clear();
+                        System.out.println("Hello World");
+                    }                   
+                }
+            } 
+        };  
+        
+        //Registering the event filter 
+        scoreButton.addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler); 
 
         /* *************** IS LEFT HANDLING *************** */
         if (!isLeft) {
