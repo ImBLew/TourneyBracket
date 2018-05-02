@@ -227,7 +227,6 @@ public class Main extends Application {
 						semiFinals.add(new Match(5,3,2,10,true));
 						semiFinals.get(i).addToLayout(gridPane);
 						semiFinals.get(i).activateSemifinal();
-						
 					}
 					else {
 						semiFinals.add(new Match(13,3,2,10,false));
@@ -295,10 +294,12 @@ public class Main extends Application {
     			    if(i < 1) {
                         semiFinals.add(new Match(5,3,2,10,true, teams[i*2], teams[i*2+1]));
                         semiFinals.get(i).addToLayout(gridPane);
+                        semiFinals.get(i).activateSemifinal();
                     }
                     else {
                         semiFinals.add(new Match(13,3,2,10,false, teams[i*2], teams[i*2+1]));
                         semiFinals.get(i).addToLayout(gridPane);
+                        semiFinals.get(i).activateSemifinal();
                     }
     			}
     			
