@@ -104,7 +104,7 @@ public class Match implements Comparable{
                     if (ex instanceof IllegalArgumentException || ex instanceof NumberFormatException) {
                         team1TextField.clear();
                         team2TextField.clear();
-                        System.out.println("Hello World");
+                        System.out.println("Please enter only valid Integers as scores.");
                     }                   
                 }
             } 

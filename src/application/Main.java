@@ -329,6 +329,7 @@ public class Main extends Application {
 	                            if (ex instanceof IllegalArgumentException || ex instanceof NumberFormatException) {
 	                                finalTextField1.clear();
 	                                finalTextField2.clear();
+	                                System.out.println("Please enter only valid Integers as scores.");
 	                            }                   
 	                        }
 	                    });
