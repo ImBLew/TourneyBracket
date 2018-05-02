@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
-public class Match {
+public class Match implements Comparable{
 
     private int x, y;
     private int width, height;
@@ -78,6 +78,8 @@ public class Match {
                     }
                     
                     winningTeam = score1 > score2 ? team1 : team2;
+                    
+                    finished();
                     setActive(false);
                     
                 }
@@ -164,4 +166,20 @@ public class Match {
         return isActive;
     }
     
+    public Team getWinningTeam() {
+        return winningTeam;
+    }
+    
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Match) {
+            if (((Match)o).team1 == team1 && ((Match)o).team2 == team2)
+                return 1;
+        }
+        return -1;
+    }
+    
+    private void finished() {
+        Main.matchFinished(this);
+    }
 }
