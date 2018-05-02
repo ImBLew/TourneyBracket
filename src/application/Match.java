@@ -24,6 +24,14 @@ public class Match implements Comparable{
     protected Button scoreButton;
     private boolean isActive;
 
+    /**
+     * Creates a Match at a specified x, y, width, and height oriented towards the left or right
+     * @param x X value at the top-left of Match object
+     * @param y Y value at the top-left of Match object 
+     * @param width Width of the Match object
+     * @param height Height of the Match object
+     * @param isLeft Whether or not the Match is on the left side
+     */
     public Match(int x, int y, int width, int height, boolean isLeft) {
         this.x = x;
         this.y = y;
@@ -32,30 +40,36 @@ public class Match implements Comparable{
         this.isLeft = isLeft;
 
         /* ******************** TEAM 1 ******************** */
+        
         team1 = null;
 
+        //Set up team1's label
         team1Label = new Label("TBD");
         team1Label.setLayoutX(x);
         team1Label.setLayoutY(y);
 
+        //Set up team1's input box
         team1TextField = new TextField();
         team1TextField.setPromptText("Score");
         team1TextField.setLayoutX(x + (width / 2.0));
         team1TextField.setLayoutY(y);
         team1TextField.setMaxSize(60,10);
+        
         /* ******************** TEAM 2 ******************** */
+        
         team2 = null;
 
+        //Set up team2's label
         team2Label = new Label("TBD");
         team2Label.setLayoutX(x);
         team2Label.setLayoutY(y + (height * 2) / 3.0);
 
+        //Set up team2's input box
         team2TextField = new TextField();
         team2TextField.setPromptText("Score");
         team2TextField.setLayoutX(x + (width / 2.0));
         team2TextField.setLayoutY(y + (height * 2) / 3.0);
         team2TextField.setMaxSize(60, 10);
-
 
         /* ***************** SCORE BUTTON ***************** */
         scoreButton = new Button();
@@ -63,7 +77,8 @@ public class Match implements Comparable{
         scoreButton.setLayoutX(x);
         scoreButton.setLayoutY(y + height / 3.0);
         scoreButton.setMaxSize(80, 10);
-        
+
+        //Creates the event handler for the score button
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
             @Override 
             public void handle(MouseEvent e) { 
@@ -73,12 +88,14 @@ public class Match implements Comparable{
                     int score1 = Integer.parseInt(team1TextField.getText());
                     int score2 = Integer.parseInt(team2TextField.getText());
                     
+                    //Ensures arguments are valid
                     if (score1 < 0 || score2 < 0 || score1 == score2) {
                         throw new IllegalArgumentException();
                     }
                     
                     winningTeam = score1 > score2 ? team1 : team2;
                     
+                    //Tells main match is done
                     finished();
                     setActive(false);
                     
@@ -113,6 +130,16 @@ public class Match implements Comparable{
         this.setActive(false);
     }
 
+    /**
+     * Creates a Match at a specified x, y, width, and height oriented towards the left or right
+     * @param x X value at the top-left of Match object
+     * @param y Y value at the top-left of Match object
+     * @param width Width of the Match object
+     * @param height Height of the Match object
+     * @param isLeft Whether or not the Match is on the left side
+     * @param team1 First team in the match
+     * @param team2 Second team in the match
+     */
     public Match(int x, int y, int width, int height, boolean isLeft, Team team1, Team team2) {
         this(x, y, width, height, isLeft);
 
@@ -124,6 +151,10 @@ public class Match implements Comparable{
         this.setActive(true);
     }
 
+    /**
+     * Adds the control elements into the provided GridPane
+     * @param grid GridPane to add Match into
+     */
     public void addToLayout(GridPane grid) {
         grid.add(team1Label, (int) team1Label.getLayoutX(), (int) team1Label.getLayoutY());
         grid.add(team2Label, (int) team2Label.getLayoutX(), (int) team2Label.getLayoutY());
@@ -135,6 +166,10 @@ public class Match implements Comparable{
 
     }
     
+    /**
+     * Sets the first team and handles if Match needs activation
+     * @param team1 Team to set as team1
+     */
     public void setTeam1(Team team1) {
         this.team1 = team1;
         team1Label.setText(team1.getName());
@@ -143,6 +178,10 @@ public class Match implements Comparable{
         }
     }
     
+    /**
+     * Sets the second team and handles if Match needs activation
+     * @param team2 Team to set as team2
+     */
     public void setTeam2(Team team2) {
         this.team2 = team2;
         team2Label.setText(team2.getName());
@@ -150,6 +189,11 @@ public class Match implements Comparable{
             this.setActive(true);
         }
     }
+    
+    /**
+     * Sets Match's Active status to true or false
+     * @param isActive 
+     */
     public void setActive(boolean isActive) {
         this.isActive = isActive;
         
@@ -162,15 +206,26 @@ public class Match implements Comparable{
         }
     }
     
+    /**
+     * Returns if match is active
+     * @return if match is active
+     */
     public boolean getIsActive() {
         return isActive;
     }
     
+    /**
+     * Returns team that won the match
+     * @return winning team
+     */
     public Team getWinningTeam() {
         return winningTeam;
     }
     
     @Override
+    /**
+     * Compares matches: returns 1 if they are equal, otherwise -1
+     */
     public int compareTo(Object o) {
         if (o instanceof Match) {
             if (((Match)o).team1 == team1 && ((Match)o).team2 == team2)
@@ -179,8 +234,11 @@ public class Match implements Comparable{
         return -1;
     }
     
+    /**
+     * Called as interim method for event handler to Main's matchFinished method
+     */
     private void finished() {
-        System.out.println("Finished match of " + team1.getName() + " vs " + team2.getName() + ", winner is " + winningTeam.getName());
+        //System.out.println("Finished match of " + team1.getName() + " vs " + team2.getName() + ", winner is " + winningTeam.getName());
         Main.matchFinished(this);
     }
 }
