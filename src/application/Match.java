@@ -1,5 +1,13 @@
 package application;
-
+///////////////////////////////////////////////////////////////////////////////
+//
+//Class File:       Team.java
+//Semester:         Spring 2018
+//
+//Author:           Yaakov Levin, Anthony Leung, Sharon Lin, Ben Lewis
+//Credits:          none
+//
+/////////////////////////////////////////////////////////////////////////////////
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +22,7 @@ public class Match implements Comparable{
     protected Team team1, team2;
     private boolean isLeft;
     protected Team winningTeam;
+    protected Team lostTeam; 
 
     private Label team1Label;
     private Label team2Label;
@@ -23,6 +32,7 @@ public class Match implements Comparable{
 
     protected Button scoreButton;
     private boolean isActive;
+    private boolean isSemiFinal;
 
     /**
      * Creates a Match at a specified x, y, width, and height oriented towards the left or right
@@ -38,6 +48,7 @@ public class Match implements Comparable{
         this.width = width;
         this.height = height;
         this.isLeft = isLeft;
+        this.isSemiFinal = false;
 
         /* ******************** TEAM 1 ******************** */
         
@@ -94,6 +105,11 @@ public class Match implements Comparable{
                     }
                     
                     winningTeam = score1 > score2 ? team1 : team2;
+                    
+                    if (isSemiFinal) {
+                        lostTeam = score1 > score2 ? team2 : team1;
+                        lostTeam.setScore(score1 > score2 ? score2 : score1);
+                    }
                     
                     //Tells main match is done
                     finished();
@@ -191,6 +207,16 @@ public class Match implements Comparable{
     }
     
     /**
+     * Return lost team in semifinal game
+     */
+    public Team getLostTeam() {
+        if (this.isSemiFinal==true) {
+            return lostTeam; 
+        }
+        return null;
+    }
+    
+    /**
      * Sets Match's Active status to true or false
      * @param isActive 
      */
@@ -204,6 +230,10 @@ public class Match implements Comparable{
             team1TextField.setEditable(false);
             team2TextField.setEditable(false);
         }
+    }
+    
+    public void activateSemifinal() {
+        this.isSemiFinal = true;
     }
     
     /**
@@ -238,7 +268,6 @@ public class Match implements Comparable{
      * Called as interim method for event handler to Main's matchFinished method
      */
     private void finished() {
-        //System.out.println("Finished match of " + team1.getName() + " vs " + team2.getName() + ", winner is " + winningTeam.getName());
         Main.matchFinished(this);
     }
 }
