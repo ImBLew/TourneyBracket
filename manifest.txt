@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: leung,levin,lewis,lin
+Main-Class: application.Main
